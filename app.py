@@ -1,6 +1,5 @@
 """Our super logging app."""
 
-import logging
 import os
 
 from loguru import logger
@@ -13,8 +12,11 @@ logger.remove()
 logger.add(RichHandler(), format="<level>{message}</level>")
 
 if os.environ.get("ENV", "prod").lower() == "prod":
-    logger.add(NotificationHandler("slack", defaults={"webhook_url": "<webhook_url"}), level="ERROR", format="{level}: {message}")
-
+    logger.add(
+        NotificationHandler("slack", defaults={"webhook_url": "<webhook_url"}),
+        level="ERROR",
+        format="{level}: {message}",
+    )
 
 
 def main() -> None:
@@ -23,8 +25,9 @@ def main() -> None:
         x = 1 / 0
     except ZeroDivisionError as exc:
         logger.exception("divided by zero")
-        
+
     print_something()
-    
+
+
 if __name__ == "__main__":
     main()
